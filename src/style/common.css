@@ -1,0 +1,13 @@
+*{
+    font-family: "微软雅黑";
+    font-size: 15px;
+}
+.content {
+    padding: 40px;
+    width: 100%;
+    background: #f5f7f9;
+  }
+  .nav {
+    height: 800px;
+    background: #ffffff;
+  }
