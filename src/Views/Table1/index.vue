@@ -1,9 +1,16 @@
 <template>
   <div class="content">
     <div class="nav">
-      <myButton v-model="dataFrom" :buttonSelectOptions="buttonSelectOptions" :stateData="stateData" @search="dataSearch"/>
+      <myButton
+        v-model="dataFrom"
+        :buttonSelectOptions="buttonSelectOptions"
+        :stateData="stateData"
+        @search="dataSearch"
+        @ModalEvent="ModalEvent"
+      />
       <myTable :tableData="tableData" :tableColum="tableColum" :page="page" />
     </div>
+    <myModal :Modal="Modal" @ok="ok" @change="OnVisiblechange"/>
   </div>
 </template>
 
@@ -16,13 +23,14 @@ export default {
       tableColum: [],
       dataFrom: [],
       buttonSelectOptions: [],
-      stateData:[],
-      isShow:false,
+      stateData: [],
+      isShow: false,
       page: {
         total: 100,
         pageIndex: 1,
         pageSize: 10,
       },
+      Modal: false,
     };
   },
   created() {
@@ -44,11 +52,17 @@ export default {
         title: "单位性质",
         key: "orgType",
         minWidth: 100,
+        render(h, params) {
+          return h("span", params.row["orgTypeName"] || "-");
+        },
       },
       {
         title: "参与汇总",
         minWidth: 100,
         key: "sumFlag",
+        render(h, params) {
+          return h("span", params.row["sumFlagName" || "-"]);
+        },
       },
       {
         title: "编辑时间",
@@ -60,7 +74,18 @@ export default {
         key: "enableFlag",
         minWidth: 80,
         render(h, params) {
-          return h("div", [h("i-switch")]);
+          return h("div", [
+            h("i-switch",{
+              props: {
+                value:params.row.enableFlag === "enable",
+              },
+              on:{
+                'on-change':(e)=>{
+                  params.row.enableFlag = e ? 'enable' : 'disable'
+                }
+              }
+            },)
+          ]);
         },
       },
       {
@@ -79,7 +104,7 @@ export default {
               },
               "编辑"
             ),
-             h(
+            h(
               "span",
               {
                 style: {
@@ -89,7 +114,7 @@ export default {
               },
               "详情"
             ),
-             h(
+            h(
               "span",
               {
                 style: {
@@ -103,44 +128,65 @@ export default {
         },
       },
     ];
-    this.tableData = [
-      {
-        orgCode: "123",
-      },
-    ];
     // 表格数据
     this.getOptionData();
-    
   },
   methods: {
-    dataSearch(params){
+    dataSearch(params) {
       console.log(params);
     },
     // 表格数据
     async getTableData() {
-      let req = {
-        current: this.page.pageIndex,
-        pageSize: this.page.pageSize,
-      };
-      req = Object.assign(req, this.dataForm);
-      console.log(req);
-      const result = await this.$api.queryUseEnergyUnitTableData(req);
-      console.log(result);
+      /* let _url =
+        "https://www.fastmock.site/mock/3f4a0aa64c80463c02ef7b881e78d2f4/myproject";
+      const result = await axios.post(
+        _url + "/baseconf/enterpriseorg/query"
+      );
+      console.log(result); */
+
+      const result = await this.$api.mockApi.queryUseEnergyUnitTableData();
+      if (result.status == 200) {
+        let data = result.data.obj;
+        this.tableData = data.object.map((item) => {
+          if (item.haschild) {
+            return {
+              ...item,
+              children: [],
+            };
+          }
+          return item;
+        });
+        this.page.pageIndex = data.currentNo;
+        this.page.pageSize = data.pageSize;
+        this.page.total = data.totalPages;
+      }
     },
     // 表头 单位性质数据
     async getOptionData() {
-      let result = await this.$api.getOrgTypeOptions();
+      let result = await this.$api.baseApi.getOrgTypeOptions();
       if (result.success === true) {
         this.buttonSelectOptions = result.obj;
-      };
-      let result2 = await this.$api.getWhetherOptions();
-      if(result2.success===true){
+      }
+      let result2 = await this.$api.baseApi.getWhetherOptions();
+      if (result2.success === true) {
         this.stateData = result2.obj;
-      };
+      }
       this.isShow = true;
     },
 
+    // 新增
+    ModalEvent() {
+      this.Modal = true;
+    },
+
+    ok() {
+      console.log('ok');
+    },
+    OnVisiblechange(visible){
+      this.Modal = visible
+    }
   },
+  mounted() {},
 };
 </script>
 

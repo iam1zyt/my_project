@@ -58,7 +58,7 @@
     <div class="right">
       <div class="btn_item"><Button type="primary">导入</Button></div>
       <div class="btn_item"><Button type="primary">导出</Button></div>
-      <div class="btn_item"><Button type="primary">新增单位</Button></div>
+      <div class="btn_item"><Button type="primary" @click="ModalEvent">新增单位</Button></div>
       <div class="btn_item"><Button type="primary">模板下载</Button></div>
     </div>
   </div>
@@ -78,6 +78,7 @@ export default {
       },
       Options: [],
       stateOption: [],
+      Modal:'flase'
     };
   },
   props: {
@@ -95,6 +96,7 @@ export default {
         return [];
       },
     },
+
   },
   mounted() {
     this.show();
@@ -106,6 +108,9 @@ export default {
     },
     search(){
       this.$emit('search',this.selectData)
+    },
+    ModalEvent(){
+      this.$emit('ModalEvent')
     }
   },
   watch:{

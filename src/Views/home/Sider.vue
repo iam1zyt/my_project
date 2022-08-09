@@ -35,7 +35,7 @@ export default {
     return {
       Data1: [
         {
-          name: "table", //此处的name用来路由跳转
+          name: "table1", //此处的name用来路由跳转
           title: "表格",
         },
         {

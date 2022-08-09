@@ -7,6 +7,7 @@
       :pageSize="page.pageSize"
       show-sizer
       class="page"
+      style="margin-top:10px"
     ></Page>
   </div>
 </template>
