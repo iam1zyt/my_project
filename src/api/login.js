@@ -9,6 +9,11 @@ export const getApproveInfoList = () => axios.get(`org/approveInfo`);
 
 export const getDefaultMenus = () => axios.get(`/menu/getMenus`);
 
+	// getUserInfo: `/mc/user/getLoginUserName`,   getMenu: `/mc/menu/getMenusByRole`,
+export const getUserInfo = ()=>axios.get(`/mc/user/getLoginUserName`);
+export const getMenu = ()=>axios.get(`/mc/menu/getMenusByRole`);
+
+
 // export const login = (params) =>
 //   axios({
 //     headers: { "Content-Type": "application/x-www-form-urlencoded" },

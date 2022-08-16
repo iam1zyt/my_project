@@ -95,19 +95,23 @@ export default {
     handleSubmit() {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
+          // 整理参数
           let params={
             username:this.form.userName,
             password:this.encryptedData(this.form.password),
             type:this.form.type,
             checkCode:this.form.checkCode
           }
+
           this.login(params).then(res=>{
               if(res.success){
                 this.$api.login.getUserInfo().then(res=>{
+                  console.log("getUserInfo",res);
                   this.SET_USERINFO(res.obj);
-                  this.getMenu().then(res=>{
-                    this.$router.push({name:this.currentPage})
-                  })
+                  // this.getMenu().then(res=>{
+                     this.$router.replace('/home');
+                  //   this.$router.push({name:this.currentPage})
+                  // })
                 })
               }else{
                 this.changeVertical()

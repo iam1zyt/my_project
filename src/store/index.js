@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import user from './module/user'
-import base from './module/base'
 
 
 Vue.use(Vuex)
@@ -10,7 +9,6 @@ Vue.config.devtools = true
 const store = new Vuex.Store({
     modules:{
         user,
-        base
     },
     state:{
         token:'',
