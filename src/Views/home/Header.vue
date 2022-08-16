@@ -1,15 +1,16 @@
 <template>
   <div class="Header">
     <Menu mode="horizontal" theme="dark" active-name="1">
-      <div class="layout-nav">
-      
-      </div>
     </Menu>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  name:'',
+  methods: {
+  },
+};
 </script>
 
 <style scpoed>
@@ -20,5 +21,12 @@ export default {};
 .layout-nav {
   background: #17233d;
   margin-left: 700px;
+}
+.login{
+  margin-left: 1700px;
+}
+.login-item{
+  color: rgb(253, 253, 253);
+  font-size: 20px;
 }
 </style>

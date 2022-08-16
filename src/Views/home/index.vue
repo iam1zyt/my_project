@@ -3,7 +3,11 @@
     <Header> </Header>
     <div class="center">
       <Sider />
-      <router-view/>
+      <div class="content">
+        <div class="nav">
+          <router-view />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -19,7 +23,7 @@ export default {
 <style scoped>
 .layout {
   border: 1px solid #d7dde4;
-  background:  #f5f7f9;
+  background: #f5f7f9;
   position: relative;
   border-radius: 4px;
   overflow: hidden;

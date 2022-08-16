@@ -5,8 +5,16 @@ Vue.use(VueRouter);
 export default new VueRouter({
   routes: [
     {
-      path: "/",
-      redirect: "home",
+      path:'/',
+      redirect:'/login',
+      component:()=>import('@/Views/login'),
+      children:[
+        {
+          path:'/login',
+          name:'login',
+          component:()=>import('@/Views/login')
+        },
+      ]
     },
     {
       path: "/home",
@@ -34,11 +42,6 @@ export default new VueRouter({
           component: () => import("@/Views/charts"),
         },
       ],
-    },
-
-    {
-      path: "",
-      redirect: "/home",
     },
   ],
 });

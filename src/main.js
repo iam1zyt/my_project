@@ -5,9 +5,9 @@ import router from './router'
 import store from './store'
 import api from './api/index'
 import 'iview/dist/styles/iview.css';
-import './style/common.css'
+import './style/index.scss'
 import * as echarts from "echarts";
-
+import '../src/Mock'
 
 import Components from '@/components'
 Vue.use(Components);

@@ -1,9 +1,7 @@
 <template>
-  <div class="content">
-    <div class="nav">
+    <div >
       <OptionHeader />
       <OpCenter />
-    </div>
   </div>
 </template>
 

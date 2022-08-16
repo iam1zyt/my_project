@@ -1,16 +1,14 @@
 <template>
-  <div class="content">
-    <div class="nav">
-      <myButton
-        v-model="dataFrom"
-        :buttonSelectOptions="buttonSelectOptions"
-        :stateData="stateData"
-        @search="dataSearch"
-        @ModalEvent="ModalEvent"
-      />
-      <myTable :tableData="tableData" :tableColum="tableColum" :page="page" />
-    </div>
-    <myModal :Modal="Modal" @ok="ok" @change="OnVisiblechange"/>
+  <div>
+    <myButton
+      v-model="dataFrom"
+      :buttonSelectOptions="buttonSelectOptions"
+      :stateData="stateData"
+      @search="dataSearch"
+      @ModalEvent="ModalEvent"
+    />
+    <myTable :tableData="tableData" :tableColum="tableColum" :page="page" />
+    <myModal :Modal="Modal" @ok="ok" @change="OnVisiblechange" />
   </div>
 </template>
 
@@ -75,16 +73,32 @@ export default {
         minWidth: 80,
         render(h, params) {
           return h("div", [
-            h("i-switch",{
+            h("i-switch", {
               props: {
-                value:params.row.enableFlag === "enable",
+                value: params.row.enableFlag === "enable",
               },
-              on:{
-                'on-change':(e)=>{
-                  params.row.enableFlag = e ? 'enable' : 'disable'
-                }
-              }
-            },)
+              on: {
+                "on-change": (e) => {
+                  params.row.enableFlag = e ? "enable" : "disable"
+                  let id = params.row.id
+                  let enableFlag = params.row.enableFlag
+                  if(enableFlag ==='disable'){
+                    return new Promise((resolve)=>{
+                      this.$Modal.confirm({
+                        title:'停用',
+                        content:'您确定要停用状态码?',
+                        onOk:()=>{
+                          resolve()
+                        this.$api.baseApi.changeUseEnergyStatus({id,enableFlag}).then(r=>{
+                          console.log(r);
+                        })
+                        }
+                      })
+                    })
+                  }
+                },
+              },
+            }),
           ]);
         },
       },
@@ -137,13 +151,29 @@ export default {
     },
     // 表格数据
     async getTableData() {
-      /* let _url =
-        "https://www.fastmock.site/mock/3f4a0aa64c80463c02ef7b881e78d2f4/myproject";
-      const result = await axios.post(
-        _url + "/baseconf/enterpriseorg/query"
-      );
-      console.log(result); */
-
+      let req = {
+        currentNo: this.page.pageIndex,
+        pageSize: this.page.pageSize,
+      };
+      // req = Object.assign(req, this.dataForm);
+      let r = await this.$api.baseApi.queryUseEnergyUnitTableData(req);
+      if (r.success === true) {
+        let data = r.obj;
+        this.tableData = data.object.map((item) => {
+          if (item.haschild) {
+            return {
+              ...item,
+              children: [],
+            };
+          }
+          return item;
+        });
+        this.page.pageIndex = data.currentNo;
+        this.page.pageSize = data.pageSize;
+        this.page.total = data.totalPages;
+      }
+      /* 
+      //mock数据
       const result = await this.$api.mockApi.queryUseEnergyUnitTableData();
       if (result.status == 200) {
         let data = result.data.obj;
@@ -159,7 +189,7 @@ export default {
         this.page.pageIndex = data.currentNo;
         this.page.pageSize = data.pageSize;
         this.page.total = data.totalPages;
-      }
+      } */
     },
     // 表头 单位性质数据
     async getOptionData() {
@@ -180,13 +210,15 @@ export default {
     },
 
     ok() {
-      console.log('ok');
+      console.log("ok");
     },
-    OnVisiblechange(visible){
-      this.Modal = visible
-    }
+    OnVisiblechange(visible) {
+      this.Modal = visible;
+    },
   },
-  mounted() {},
+  mounted() {
+    
+  },
 };
 </script>
 

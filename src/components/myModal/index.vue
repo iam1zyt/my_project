@@ -1,6 +1,6 @@
 <template>
   <div class="Madal">
-    <Modal v-model="modal" title="modal" @on-ok="ok" width="600px" @on-visible-change="change">
+    <Modal v-model="modal" :title="title" @on-ok="ok" width="600px" @on-visible-change="change">
       <Form ref="formValidate" :model="formValidate" class="formWrapper">
         <div class="form-input">
           <FormItem label="单位编号">
@@ -114,6 +114,7 @@ export default {
         desc: "",
       },
       modal: false,
+      title:'新增单位'
     };
   },
   watch: {
