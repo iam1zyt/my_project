@@ -24,11 +24,11 @@ const store = new Vuex.Store({
         setScatterData(state,scatterdata){
             state.scatterdata = scatterdata;
         },
-        // 将token存储到state和localStorage中
+       /*  // 将token存储到state和localStorage中
         SET_TOKEN(state,token){
             state.token = token;
             localStorage.setItem("token",token)
-        }
+        } */
     },
     actions:{
     },

@@ -1,18 +1,10 @@
 import axios from "./axios";
 import qs from "qs";
 
-export const isOpen = () => axios.get(`/expertSysSetting/isOpen`);
-
 export const logout = () => axios.get(`/logInOut`);
 
-export const getApproveInfoList = () => axios.get(`org/approveInfo`);
-
-export const getDefaultMenus = () => axios.get(`/menu/getMenus`);
-
-	// getUserInfo: `/mc/user/getLoginUserName`,   getMenu: `/mc/menu/getMenusByRole`,
+	// getUserInfo: `/mc/user/getLoginUserName`,  
 export const getUserInfo = ()=>axios.get(`/mc/user/getLoginUserName`);
-export const getMenu = ()=>axios.get(`/mc/menu/getMenusByRole`);
-
 
 // export const login = (params) =>
 //   axios({

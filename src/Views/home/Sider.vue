@@ -36,11 +36,11 @@ export default {
       Data1: [
         {
           name: "table1", //此处的name用来路由跳转
-          title: "表格",
+          title: "表格1",
         },
         {
           name: "table2",
-          title: "表单",
+          title: "表格2",
         },
         {
           name: "table3",

@@ -3,12 +3,12 @@
     <div class="login-con">
       <Card icon="md-log-in" title="欢迎登录" :bordered="false">
         <div class="from-con">
-          <loginForm ></loginForm>
+          <loginForm></loginForm>
           <p class="login-tip">输入任意用户名和密码</p>
         </div>
       </Card>
     </div>
-    </div>
+  </div>
 </template>
 
 <script>
@@ -18,9 +18,7 @@ export default {
   name: "login",
   components: { loginForm },
   data() {
-    return {
-
-    };
+    return {};
   },
   methods: {
     //  handleSubmit(form) {
@@ -48,5 +46,31 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "./login.scss";
+.login {
+  width: 100%;
+  height: 100%;
+  background-image: url("/src/assets/image/bg.jpg");
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  &-con {
+    position: absolute;
+    right: 40%;
+    top: 45%;
+    transform: translateY(-60%);
+    width: 300px;
+    ::deep .ivu-card-head {
+      text-align: center;
+      padding: 10px 0;
+    }
+    .from-con {
+      padding: 10px 0 0;
+    }
+    .login-tip {
+      font-size: 10px;
+      text-align: center;
+      color: #c3c3c3;
+    }
+  }
+}
 </style>>

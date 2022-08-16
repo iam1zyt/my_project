@@ -22,9 +22,9 @@
         v-model="form.checkCode"
         placeholder="请输入验证码"
         class="code-input"
-        @on-enter ="handleSubmit"
+        @on-enter="handleSubmit"
       ></Input>
-      <span class="code" >
+      <span class="code">
         <img
           ref="imgCheck"
           :src="PROXY_URL + '/verification'"
@@ -34,9 +34,7 @@
       </span>
     </FormItem>
     <FormItem
-      ><Button type="primary" @click="handleSubmit" long
-        >登录</Button
-      ></FormItem
+      ><Button type="primary" @click="handleSubmit" long>登录</Button></FormItem
     >
   </Form>
 </template>
@@ -52,16 +50,14 @@ export default {
         userName: "admin",
         password: "Admin123",
         checkCode: "",
-        type: '超级管理员',
+        type: "超级管理员",
       },
       rules: {
         userName: [
           { required: true, message: "用户名不能为空", trigger: "blur,chang" },
-          
         ],
         password: [
           { required: true, message: "密码不能为空", trigger: "blur,chang" },
-         
         ],
         checkCode: [
           { required: true, message: "验证码不能为空", trigger: "blur,chang" },
@@ -72,13 +68,11 @@ export default {
   computed: {
     ...mapState("user", {
       userInfo: (state) => state.userInfo,
-      currentPage: (state) => state.currentPage,
     }),
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
-    ...mapActions("user", ["login", "getMenu"]),
+    ...mapActions("user", ["login"]),
     ...mapMutations("user", ["SET_USERINFO"]),
 
     // 加密
@@ -96,28 +90,25 @@ export default {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           // 整理参数
-          let params={
-            username:this.form.userName,
-            password:this.encryptedData(this.form.password),
-            type:this.form.type,
-            checkCode:this.form.checkCode
-          }
+          let params = {
+            username: this.form.userName,
+            password: this.encryptedData(this.form.password),
+            type: this.form.type,
+            checkCode: this.form.checkCode,
+          };
 
-          this.login(params).then(res=>{
-              if(res.success){
-                this.$api.login.getUserInfo().then(res=>{
-                  console.log("getUserInfo",res);
-                  this.SET_USERINFO(res.obj);
-                  // this.getMenu().then(res=>{
-                     this.$router.replace('/home');
-                  //   this.$router.push({name:this.currentPage})
-                  // })
-                })
-              }else{
-                this.changeVertical()
-                this.$Message.error("登陆失败，请检查输入内容是否正确")
-              }
-          })
+          this.login(params).then((res) => {
+            if (res.success) {
+              this.$api.login.getUserInfo().then((res) => {
+                console.log("getUserInfo", res);
+                this.SET_USERINFO(res.obj);
+                this.$router.replace("/home");
+              });
+            } else {
+              this.changeVertical();
+              this.$Message.error("登陆失败，请检查输入内容是否正确");
+            }
+          });
           //valid成功为true,失败为false
           // this.$emit("on-success-valid", this.form);
         } else {
@@ -128,7 +119,10 @@ export default {
     },
     // 验证码
     changeVertical() {
-      this.$refs.imgCheck.setAttribute("src", this.PROXY_URL + "/verification?" +Math.random());
+      this.$refs.imgCheck.setAttribute(
+        "src",
+        this.PROXY_URL + "/verification?" + Math.random()
+      );
     },
   },
 };
