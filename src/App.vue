@@ -13,7 +13,7 @@ export default {
 <style>
 #app{
   width: 100%;
-  height: 100%;
+  height: 100vh;
 }
 html,body{
   width: 100%;

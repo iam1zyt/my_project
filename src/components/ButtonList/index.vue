@@ -32,7 +32,7 @@
           </Select>
         </div>
         <div v-else-if="item.type === 'btn'">
-          <Button :style="{ width: item.width }" class="btn_style">{{ item.label }}</Button>
+          <Button :style="{ width: item.width }" class="btn_style" @click.stop="ButtonClick(item.key)">{{ item.label }}</Button>
         </div>
       </div>
     </div>
@@ -43,7 +43,7 @@
     >
       <div v-for="item of buttonList.slice(splitNum)" :key="item.id" >
         <div v-if="item.type === 'btn'">
-          <Button type="primary" :style="{ width: item.width }" class="btn_style">{{
+          <Button type="primary" :style="{ width: item.width }" class="btn_style" @click.stop="ButtonClick(item.key)">{{
             item.label
           }}</Button>
         </div>
@@ -53,7 +53,6 @@
 </template>
 
 <script>
-import { getQueryMethod } from "@/untils/buttonList";
 import { mapState } from "vuex";
 export default {
   name: "ButtonList",
@@ -78,7 +77,9 @@ export default {
     };
   },
   methods: {
-    clickEnter() {},
+    clickEnter() {
+
+    },
     getButtonObject() {
       console.log(7);
     },
@@ -86,6 +87,9 @@ export default {
       console.log(8);
       this.$store.commit("changeButtonSelectOptions", {});
     },
+    ButtonClick(key){
+      this.$emit("ButtonClick",key)
+    }
   },
   watch: {
     buttonList(n, o) {

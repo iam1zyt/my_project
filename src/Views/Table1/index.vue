@@ -9,23 +9,29 @@
       @search="dataSearch"
       @ModalEvent="ModalEvent"
     /> -->
-    <ButtonList :buttonList="buttonList" :splitNum="splitNum"></ButtonList>
+    <ButtonList
+      :buttonList="buttonList"
+      :splitNum="splitNum"
+      :buttonObject="buttonObject"
+      @ButtonClick="ButtonClick"
+    ></ButtonList>
     <myTable
       :tableData="tableData"
       :tableColumn="tableColumn"
       :page="page"
       @pageRefresh="pageRefresh"
     />
-    <myModal :Modal="Modal" @ok="ok" @change="OnVisiblechange" />
+    <myModal :Modal="Modal"  />
   </div>
 </template>
 
 <script>
-import getButtonList from '@/untils/buttonList'
+import getButtonList from "@/untils/buttonList";
 export default {
   name: "table1",
   data() {
     return {
+      buttonObject: {},
       splitNum: 6,
       buttonList: [],
       tableData: [],
@@ -88,7 +94,7 @@ export default {
         value: "modelDownload",
       },
     ];
-    this.buttonList =getButtonList(keyArr)
+    this.buttonList = getButtonList(keyArr);
     // 表头数据
     this.tableColumn = [
       {
@@ -176,7 +182,6 @@ export default {
                 },
                 on: {
                   click: () => {
-                    console.log(this, this1);
                   },
                 },
               },
@@ -219,7 +224,6 @@ export default {
         currentNo: this.page.pageIndex,
         pageSize: this.page.pageSize,
       };
-      console.log(req);
       // req = Object.assign(req, this.dataForm);
       let r = await this.$api.baseApi.queryUseEnergyUnitTableData(req);
       if (r.success === true) {
@@ -269,23 +273,15 @@ export default {
       this.isShow = true;
     },
 
-    // 新增
-    ModalEvent() {
-      this.Modal = true;
-    },
-
-    ok() {
-      console.log("ok");
-    },
-    OnVisiblechange(visible) {
-      this.Modal = visible;
-    },
-    edit() {
-      console.log(edit);
-    },
     pageRefresh() {
       this.getTableData();
     },
+    ButtonClick(key){
+     if(key==='add'){
+      let modal = true
+      this.$store.commit('OnVisiblechange',modal)
+     }
+    }
   },
   mounted() {},
 };

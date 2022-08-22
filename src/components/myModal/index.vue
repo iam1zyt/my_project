@@ -1,6 +1,6 @@
 <template>
   <div class="Madal">
-    <Modal v-model="modal" :title="title" @on-ok="ok" width="600px" @on-visible-change="change">
+    <Modal v-model="modal" :title="title" width="600px" @on-ok="ok" @on-visible-change="change">
       <Form ref="formValidate" :model="formValidate" class="formWrapper">
         <div class="form-input">
           <FormItem label="单位编号">
@@ -43,7 +43,7 @@
             </Select>
           </FormItem>
         </div>
-         <div class="form-input">
+        <div class="form-input">
           <FormItem label="上级单位">
             <Select v-model="formValidate.parentUnit" style="width: 200px">
               <Option value="" key="">1</Option>
@@ -65,16 +65,16 @@
             </Select>
           </FormItem>
         </div>
-        <div class="form-input " style="width:450px;">
+        <div class="form-input" style="width: 450px">
           <FormItem label="自定义编号">
             <Select v-model="formValidate.parentUnit" style="width: 350px">
               <Option value="" key="">1</Option>
             </Select>
           </FormItem>
         </div>
-        <div class="form-input" style="width:450px;">
+        <div class="form-input" style="width: 450px">
           <FormItem label="来往单位编号">
-            <Select v-model="formValidate.parentUnit" style="width:350px">
+            <Select v-model="formValidate.parentUnit" style="width: 350px">
               <Option value="" key="">1</Option>
             </Select>
           </FormItem>
@@ -99,6 +99,7 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
   name: "myModal",
   data() {
@@ -114,29 +115,26 @@ export default {
         desc: "",
       },
       modal: false,
-      title:'新增单位'
+      title: "新增单位",
     };
   },
+  computed:{
+      ...mapState({
+        modal:state=>state.ismodal,
+      })
+  },
   watch: {
-    Modal: {
+    ismodal: {
       handler(newVal, oldVal) {
         this.modal = newVal;
       },
       deep: true,
     },
   },
-  props: {
-    Modal: {
-      type: Boolean,
-    },
-  },
+
   methods: {
-    ok() {
-      this.$emit("ok");
-    },
-    change(){
-      this.$emit("change",this.modal)
-    }
+    ok() {},
+    change() {},
   },
 };
 </script>
@@ -145,7 +143,7 @@ export default {
 .form-input {
   width: 260px;
 }
-.line{
+.line {
   width: 100%;
   height: 20px;
   border-top: rgb(226, 226, 226) 1px solid;
