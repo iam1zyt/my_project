@@ -1,12 +1,12 @@
 <template>
   <div class="sider">
-    <Menu theme="light" width="auto" @on-select="changePage">
-      <Submenu name="1-1">
+    <Menu theme="light" width="auto" @on-select="changePage" :active-name="activename" :open-names="['1','1-1','1-2']">
+      <Submenu name="1">
         <template slot="title">
          <Icon type="ios-apps" />
           多级菜单
         </template>
-        <Submenu name="1-1-1">
+        <Submenu name="1-1">
           <template slot="title"> 
             <Icon type="ios-bus" />
             表格 </template>
@@ -17,7 +17,7 @@
             >{{ item.title }}</MenuItem
           >
         </Submenu>
-        <Submenu name="1-1-2">
+        <Submenu name="1-2">
           <template slot="title">
           <Icon type="ios-clipboard" />
           图表
@@ -33,21 +33,25 @@ export default {
   name: "Sider",
   data() {
     return {
+      activename:'',
       Data1: [
         {
           name: "table1", //此处的name用来路由跳转
-          title: "表格1",
+          title: "用户单位信息管理",
         },
         {
           name: "table2",
-          title: "表格2",
+          title: "用户手机号",
         },
         {
           name: "table3",
-          title: "其他",
+          title: "主站地址管理",
         },
       ],
     };
+  },
+  mounted() {
+     this.activename = this.$route.name
   },
   methods: {
     changePage(name) {
@@ -63,6 +67,6 @@ export default {
   background-color: #fdfdfd;
   border-radius: 4px;
   overflow: hidden;
-  width: 200px;
+  width: 300px;
 }
 </style>

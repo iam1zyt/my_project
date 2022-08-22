@@ -1,5 +1,5 @@
-const production = "http://192.168.1.27:9999";
-// const production = "http://192.168.111.33:9999"
+// const production = "http://192.168.1.27:9999";
+const production = "http://192.168.111.33:9999"
 process.env.VUE_APP_TARGET = production;
 
 module.exports = {

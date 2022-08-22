@@ -1,7 +1,7 @@
 <template>
   <div class="layout">
     <Header> </Header>
-    <div class="center">
+    <div class="center" >
       <Sider />
       <div class="content">
         <div class="nav">
@@ -27,6 +27,7 @@ export default {
   position: relative;
   border-radius: 4px;
   overflow: hidden;
+  height: 100%;
 }
 .layout .center {
   display: flex;

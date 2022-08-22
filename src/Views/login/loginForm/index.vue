@@ -47,8 +47,8 @@ export default {
   data() {
     return {
       form: {
-        userName: "admin",
-        password: "Admin123",
+        userName: "",
+        password: "",
         checkCode: "",
         type: "超级管理员",
       },
@@ -100,7 +100,6 @@ export default {
           this.login(params).then((res) => {
             if (res.success) {
               this.$api.login.getUserInfo().then((res) => {
-                console.log("getUserInfo", res);
                 this.SET_USERINFO(res.obj);
                 this.$router.replace("/home");
               });

@@ -148,6 +148,12 @@ export default {
 .btn_item {
   display: flex;
   align-items: center;
+  height: 36px;
+}
+.right{
+  height: 36px;
+  margin-top: 10px;
+
 }
 .text {
   font-size: 15px;
@@ -157,5 +163,6 @@ export default {
   display: flex;
   width: 377px;
   justify-content: space-around;
+  
 }
 </style>

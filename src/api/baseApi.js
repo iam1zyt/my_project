@@ -29,7 +29,7 @@ export const changeUseEnergyStatus = (data) => {
      queryPayerTableData: `/baseconf/householder/query`,
       */
 
-export const queryPayerTableData = (data) => 
+export const queryPayerTableData = (data) =>
   axios({
     method: "post",
     url: `/baseconf/householder/query`,
@@ -37,3 +37,17 @@ export const queryPayerTableData = (data) =>
     responseType: "json",
   });
 
+// 用能单位查询
+// getUseEnergyUnitDataInfo: (id) => `/baseconf/enterpriseorg/${id}/info`,
+export const getUseEnergyUnitDataInfo = (id) =>
+  axios.get(`/baseconf/enterpriseorg/${id}/info`);
+
+  // searchSmartMeterList: [`/baseconf/houseMeter/search/smartMeter`],
+
+  export const searchSmartMeterList =(data)=>
+  axios({
+    method: "post",
+    url: `/baseconf/houseMeter/search/smartMeter`,
+    data,
+    responseType: "json",
+  })

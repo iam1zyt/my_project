@@ -1,22 +1,42 @@
 <template>
   <div class="table">
-    <Table :columns="tableColum" :data="tableData" class="tables"></Table>
+    <Table
+      :height="height"
+      :columns="tableColumn"
+      :data="tableData"
+      class="tables"
+    ></Table>
     <Page
       :total="page.total"
       :current="page.pageIndex"
       :pageSize="page.pageSize"
+      :page-size-opts="[10, 20, 30, 40, 50]"
+      prev-text="上一页"
+      next-text="下一页"
       show-sizer
+      show-total
+      show-elevator
       class="page"
-      style="margin-top:10px"
-    ></Page>
+      @on-change="changeIndexPage"
+      @on-page-size-change="changePageSize"
+    >
+    <span>共有{{this.page.total}}条</span>
+      ></Page
+
+    >
   </div>
 </template>
 
 <script>
 export default {
   name: "myTable",
+  data() {
+    return {
+      height: window.innerHeight - 458,
+    };
+  },
   props: {
-    tableColum: {
+    tableColumn: {
       type: Array,
       required: true,
       default() {
@@ -37,14 +57,32 @@ export default {
       },
     },
   },
+  methods: {
+    changeIndexPage(page) {
+      this.page.pageIndex = page;
+      this.$emit("pageRefresh", page);
+    },
+    changePageSize(pageSize) {
+      this.page.pageSize = pageSize;
+      this.$emit("pageRefresh", pageSize);
+      console.log(pageSize);
+    },
+  },
 };
 </script>
 
 <style scoped>
-.table{
+.table {
   margin-top: 10px;
+  padding: 5px;
+  position: relative;
+}
+.ivu-table-wrapper {
+  border: none;
 }
 .page {
-   margin-left: 550px;
+  position: absolute;
+  bottom: -200px;
+  left: 50px;
 }
 </style>

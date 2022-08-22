@@ -1,24 +1,35 @@
 <template>
   <div>
-    <myButton
+    <!-- <myButton
       v-model="dataFrom"
+      :splitNum="splitNum"
+      :buttonList="buttonList"
       :buttonSelectOptions="buttonSelectOptions"
       :stateData="stateData"
       @search="dataSearch"
       @ModalEvent="ModalEvent"
+    /> -->
+    <ButtonList :buttonList="buttonList" :splitNum="splitNum"></ButtonList>
+    <myTable
+      :tableData="tableData"
+      :tableColumn="tableColumn"
+      :page="page"
+      @pageRefresh="pageRefresh"
     />
-    <myTable :tableData="tableData" :tableColum="tableColum" :page="page" />
     <myModal :Modal="Modal" @ok="ok" @change="OnVisiblechange" />
   </div>
 </template>
 
 <script>
+import getButtonList from '@/untils/buttonList'
 export default {
   name: "table1",
   data() {
     return {
+      splitNum: 6,
+      buttonList: [],
       tableData: [],
-      tableColum: [],
+      tableColumn: [],
       dataFrom: [],
       buttonSelectOptions: [],
       stateData: [],
@@ -33,8 +44,53 @@ export default {
   },
   created() {
     this.getTableData();
+    let keyArr = [
+      {
+        key: "input",
+        value: "orgName",
+      },
+      {
+        key: "slt",
+        value: "orgType",
+      },
+      {
+        key: "slt",
+        value: "sumFlag",
+      },
+      {
+        key: "slt",
+        value: "enableFlag",
+        defaultValue: "",
+      },
+      {
+        key: "btn",
+        value: "query",
+      },
+      {
+        key: "btn",
+        value: "reset",
+      },
+      {
+        key: "btn",
+        value: "exportInFront",
+      },
+      {
+        key: "btn",
+        value: "import",
+      },
+      {
+        key: "btn",
+        value: "add",
+        ownLabel: "新增单位",
+      },
+      {
+        key: "btn",
+        value: "modelDownload",
+      },
+    ];
+    this.buttonList =getButtonList(keyArr)
     // 表头数据
-    this.tableColum = [
+    this.tableColumn = [
       {
         title: "单位编号",
         key: "orgCode",
@@ -79,22 +135,24 @@ export default {
               },
               on: {
                 "on-change": (e) => {
-                  params.row.enableFlag = e ? "enable" : "disable"
-                  let id = params.row.id
-                  let enableFlag = params.row.enableFlag
-                  if(enableFlag ==='disable'){
-                    return new Promise((resolve)=>{
+                  params.row.enableFlag = e ? "enable" : "disable";
+                  let id = params.row.id;
+                  let enableFlag = params.row.enableFlag;
+                  if (enableFlag === "disable") {
+                    return new Promise((resolve) => {
                       this.$Modal.confirm({
-                        title:'停用',
-                        content:'您确定要停用状态码?',
-                        onOk:()=>{
-                          resolve()
-                        this.$api.baseApi.changeUseEnergyStatus({id,enableFlag}).then(r=>{
-                          console.log(r);
-                        })
-                        }
-                      })
-                    })
+                        title: "停用",
+                        content: "您确定要停用状态码?",
+                        onOk: () => {
+                          resolve();
+                          this.$api.baseApi
+                            .changeUseEnergyStatus({ id, enableFlag })
+                            .then((r) => {
+                              console.log(r);
+                            });
+                        },
+                      });
+                    });
                   }
                 },
               },
@@ -107,6 +165,7 @@ export default {
         minWidth: 200,
         key: "operate",
         render(h) {
+          // const this1 = this['$options'].parent
           return h("div", [
             h(
               "span",
@@ -114,6 +173,11 @@ export default {
                 style: {
                   color: "blue",
                   margin: "0 5px",
+                },
+                on: {
+                  click: () => {
+                    console.log(this, this1);
+                  },
                 },
               },
               "编辑"
@@ -155,6 +219,7 @@ export default {
         currentNo: this.page.pageIndex,
         pageSize: this.page.pageSize,
       };
+      console.log(req);
       // req = Object.assign(req, this.dataForm);
       let r = await this.$api.baseApi.queryUseEnergyUnitTableData(req);
       if (r.success === true) {
@@ -215,10 +280,14 @@ export default {
     OnVisiblechange(visible) {
       this.Modal = visible;
     },
+    edit() {
+      console.log(edit);
+    },
+    pageRefresh() {
+      this.getTableData();
+    },
   },
-  mounted() {
-    
-  },
+  mounted() {},
 };
 </script>
 

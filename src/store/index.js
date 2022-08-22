@@ -16,6 +16,8 @@ const store = new Vuex.Store({
         userSate:0,
         piedata:[],
         scatterdata:[],
+        //选择框数据
+        buttonSelectOptions:{}
     },
     mutations:{
         setPieData(state,piedata){
@@ -29,6 +31,9 @@ const store = new Vuex.Store({
             state.token = token;
             localStorage.setItem("token",token)
         } */
+        changeButtonSelectOptions(state,data){
+            state.buttonSelectOptions = data;
+          }
     },
     actions:{
     },

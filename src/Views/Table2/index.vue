@@ -1,24 +1,25 @@
 <template>
   <div>
-    <myButton
-      v-model="searchFrom"
-      :buttonSelectOptions="buttonSelectOptions"
-    ></myButton>
+    <ButtonList :buttonList="buttonList" :splitNum="splitNum"></ButtonList>
     <myTable
       :tableData="tableData"
-      :tableColum="tableColum"
+      :tableColumn="tableColumn"
       :page="page"
+      @pageRefresh="pageRefresh"
     ></myTable>
   </div>
 </template>
 
 <script>
+import getButtonList from '@/untils/buttonList'
 export default {
-  name: "",
+  name: "table2",
   data() {
     return {
+      buttonList:{},
+      splitNum:7,
       tableData: [],
-      tableColum: [],
+      tableColumn: [],
       searchFrom: {
         enableFlag: "",
         hname: "",
@@ -39,7 +40,17 @@ export default {
   },
   created() {
     this.getTableData();
-    this.tableColum = [
+    let keyArr = [
+      { key: "input", value: "hname", ownLabel: "用户姓名" },
+      { key: "input", value: "houseCode" },
+      { key: "slt", value: "payerOrganizationId" },
+      { key: "slt", value: "workStatus", defaultValue: "" },
+      { key: "slt", value: "enableFlag", defaultValue: "" },
+      { key: "btn", value: "query" },
+      { key: "btn", value: "reset" },
+    ];
+    this.buttonList = getButtonList(keyArr);
+    this.tableColumn = [
       {
         title: "用户姓名",
         key: "hname",
@@ -150,23 +161,26 @@ export default {
         pageSize: this.page.pageSize,
       };
       let r = await this.$api.baseApi.queryPayerTableData(req);
-      if(r.success===true){
-        let data = r.obj
-        this.tableData = data.object.map((item)=>{
-          return{
+      if (r.success === true) {
+        let data = r.obj;
+        this.tableData = data.object.map((item) => {
+          return {
             ...item,
-            children:[]
-          }
-        })
+            children: [],
+          };
+        });
         this.page.total = data.count;
         this.page.pageIndex = data.currentNo;
-        this.page.currentNo =data.currentNo;
-      }else{
+        this.page.currentNo = data.currentNo;
+      } else {
         this.$Message.error({
-          content:r.msg || '请求失败！'
-        })
+          content: r.msg || "请求失败！",
+        });
       }
-
+    },
+    pageRefresh() {
+      this.getTableData();
+      console.log(777);
     },
   },
 };
