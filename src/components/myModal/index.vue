@@ -1,6 +1,12 @@
 <template>
   <div class="Madal">
-    <Modal v-model="modal" :title="title" width="600px" @on-ok="ok" @on-visible-change="change">
+    <Modal
+      v-model="modal"
+      :title="title"
+      width="600px"
+      @on-ok="ok"
+      @on-visible-change="change"
+    >
       <Form ref="formValidate" :model="formValidate" class="formWrapper">
         <div class="form-input">
           <FormItem label="单位编号">
@@ -99,7 +105,6 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
 export default {
   name: "myModal",
   data() {
@@ -114,27 +119,33 @@ export default {
         time: "",
         desc: "",
       },
-      modal: false,
       title: "新增单位",
+      modal:this.Modal
     };
   },
-  computed:{
-      ...mapState({
-        modal:state=>state.ismodal,
-      })
+  props:{
+    Modal:Boolean
   },
+
   watch: {
-    ismodal: {
-      handler(newVal, oldVal) {
-        this.modal = newVal;
+    Modal: {
+      handler(newVal) {
+            this.modal = newVal;
       },
       deep: true,
+      immediate: true,
     },
   },
 
   methods: {
-    ok() {},
-    change() {},
+   
+    ok() {
+      // this.$emit('changeVisible',this.modal)
+    },
+    change() {
+      this.$emit('changeVisible',this.modal)
+
+    },
   },
 };
 </script>

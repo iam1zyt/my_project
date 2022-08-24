@@ -47,6 +47,10 @@ export default {
           name: "table3",
           title: "主站地址管理",
         },
+        {
+          name:'test',
+          title:'测试'
+        }
       ],
     };
   },

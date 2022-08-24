@@ -21,7 +21,7 @@
       :page="page"
       @pageRefresh="pageRefresh"
     />
-    <myModal :Modal="Modal"  />
+    <myModal :Modal="Modal" @changeVisible="changeVisible" />
   </div>
 </template>
 
@@ -150,12 +150,7 @@ export default {
                         title: "停用",
                         content: "您确定要停用状态码?",
                         onOk: () => {
-                          resolve();
-                          this.$api.baseApi
-                            .changeUseEnergyStatus({ id, enableFlag })
-                            .then((r) => {
-                              console.log(r);
-                            });
+                         console.log("ok");
                         },
                       });
                     });
@@ -278,9 +273,11 @@ export default {
     },
     ButtonClick(key){
      if(key==='add'){
-      let modal = true
-      this.$store.commit('OnVisiblechange',modal)
+       this.Modal = true
      }
+    },
+    changeVisible(modal){
+      this.Modal = modal;
     }
   },
   mounted() {},

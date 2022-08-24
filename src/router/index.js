@@ -5,21 +5,21 @@ Vue.use(VueRouter);
 export default new VueRouter({
   routes: [
     {
-      path:'/',
-      redirect:'/login',
-      component:()=>import('@/Views/login'),
-      children:[
+      path: "/",
+      redirect: "/login",
+      component: () => import("@/Views/login"),
+      children: [
         {
-          path:'/login',
-          name:'login',
-          component:()=>import('@/Views/login')
+          path: "/login",
+          name: "login",
+          component: () => import("@/Views/login"),
         },
-      ]
+      ],
     },
     {
       path: "/home",
       component: () => import("@/Views/home"),
-      redirect:'/home/table1',
+      redirect: "/home/table1",
       children: [
         {
           path: "table1",
@@ -41,12 +41,21 @@ export default new VueRouter({
           name: "charts",
           component: () => import("@/Views/charts"),
         },
+        {
+          path:'test',
+          name:'test',
+          component:()=>import('@/Views/tableTest')
+        }
       ],
     },
   ],
+
+  mode: 'history',
+  // 修改linkActiveClass
+  linkActiveClass: 'active'
 });
 
-const originalPush = VueRouter.prototype.push;
-VueRouter.prototype.push = function push(location) {
-  return originalPush.call(this, location).catch((err) => err);
-};
+const VueRouterPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push (to) {
+return VueRouterPush.call(this, to).catch(err => err)
+}

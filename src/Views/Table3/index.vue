@@ -24,6 +24,20 @@ export default {
       tableData: [],
       tableColumn: [],
       dataForm: {},
+      powerList: [
+        {
+          value: "Hydroenergy",
+          label: "水",
+        },
+        {
+          value: "ElectricalEnergy",
+          label: "电",
+        },
+        {
+          value: "NaturalGas",
+          label: "天然气",
+        },
+      ],
     };
   },
   created() {
@@ -145,38 +159,7 @@ export default {
                 value: params.row.status === "enable",
               },
               on: {
-                "on-change": (e) => {
-                  if (e) {
-                    params.row.status = "enable";
-                    this.$api
-                      .setResidentialMeterStatus(params.row)
-                      .then((res) => {
-                        if (res.success === true) {
-                          this.getTableData();
-                          this.$Message.success({
-                            content: "操作成功！",
-                          });
-                        } else {
-                          this.$Message.error({
-                            content: res.msg || "请求失败!",
-                          });
-                        }
-                      });
-                  } else {
-                    params.row.status = "disable";
-                    this.$dialog.changeStatus({
-                      title: "提示",
-                      tipMsg: "是否停用该表计",
-                      callback: this.changeStatusTotalMeter.bind(
-                        this,
-                        params.row
-                      ),
-                      callCancel: () => {
-                        params.row.status = "enable";
-                      },
-                    });
-                  }
-                },
+                
               },
             }),
           ]);
@@ -196,12 +179,7 @@ export default {
         width: "150",
         align: "center",
         render: (h, params) => {
-          let titleArr = ["切换"],
-            fnMap = new Map();
-          titleArr.forEach((title) => {
-            fnMap.set(title, getOperateFn.bind(this, title, params.row)());
-          });
-          return getTableOperateCommonFn(h, titleArr, fnMap);
+         return h('span',"切换")
         },
       },
     ];
@@ -232,7 +210,7 @@ export default {
       }
     },
     pageRefresh() {
-      this.getTableData()
+      this.getTableData();
     },
   },
 };

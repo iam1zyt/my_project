@@ -19,7 +19,6 @@ const store = new Vuex.Store({
         //选择框数据
         buttonSelectOptions:{},
         // 判断新增单位
-        ismodal:false
     },
     mutations:{
         setPieData(state,piedata){
@@ -37,9 +36,6 @@ const store = new Vuex.Store({
             state.buttonSelectOptions = data;
           },
 
-          OnVisiblechange(state,data){
-            state.ismodal = data
-          }
     },
     actions:{
        

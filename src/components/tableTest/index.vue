@@ -1,10 +1,6 @@
 <template>
-  <div class="table">
-    <Table
-      :height="height"
-      :columns="tableColumn"
-      :data="tableData"
-    ></Table>
+  <div class="tanble">
+    <Table :columns="tableColumn" :data="tableData"></Table>
     <Page
       :total="page.total"
       :current="page.pageIndex"
@@ -19,6 +15,7 @@
       @on-change="changeIndexPage"
       @on-page-size-change="changePageSize"
     >
+      >
       <span>共有{{ this.page.total }}条</span>
       ></Page
     >
@@ -27,13 +24,7 @@
 
 <script>
 export default {
-  name: "myTable",
-  data() {
-    return {
-      height: window.innerHeight - 458,
-      
-    };
-  },
+  name: "testTable",
   props: {
     tableColumn: {
       type: Array,
@@ -56,25 +47,15 @@ export default {
       },
     },
   },
-  watch: {
-    tableData: {
-      handler(newval) {
-        this.tableData = newval;
-      },
-      deep: true,
-    },
-  },
-
   methods: {
-    
     changeIndexPage(page) {
       this.page.pageIndex = page;
       this.$emit("pageRefresh", page);
     },
     changePageSize(pageSize) {
-      this.page.pageIndex = "1"
       this.page.pageSize = pageSize;
       this.$emit("pageRefresh", pageSize);
+      console.log(pageSize);
     },
   },
 };
